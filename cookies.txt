@@ -2,3 +2,5 @@ Set-Cookie: session_id=abc123; Path=/; HttpOnly; Secure; SameSite=Lax
 Set-Cookie: auth=xyz; Path=/; HttpOnly
 Set-Cookie: pref=light; Domain=.example.com; Path=/; SameSite=None; Secure
 Set-Cookie: marketing=1; Path=/
+Set-Cookie: __Host-token=t0k; Path=/app; Secure; HttpOnly; SameSite=Strict
+Set-Cookie: remember_me=1; Max-Age=31536000; Secure; HttpOnly; SameSite=Lax
