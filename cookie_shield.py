@@ -81,8 +81,12 @@ def analyze(cookie: Cookie) -> list[Warning]:
             out.append(Warning("high", "__Host- prefix requires Secure, Path=/ and no Domain"))
 
     max_age = a.get("max-age", "")
-    if cookie.sensitive and max_age.lstrip("-").isdigit() and int(max_age) > LONG_LIVED:
-        out.append(Warning("low", f"long-lived credential (Max-Age {int(max_age) // ONE_DAY} days)"))
+    try:
+        max_age_seconds = int(max_age)
+    except ValueError:
+        max_age_seconds = None
+    if cookie.sensitive and max_age_seconds is not None and max_age_seconds > LONG_LIVED:
+        out.append(Warning("low", f"long-lived credential (Max-Age {max_age_seconds // ONE_DAY} days)"))
 
     return out
 

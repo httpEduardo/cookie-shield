@@ -1,6 +1,6 @@
 # cookie-shield
 
-Reviews `Set-Cookie` headers and points out missing or weak security attributes, with severity adjusted to how sensitive each cookie looks.
+`cookie-shield` reviews `Set-Cookie` headers and highlights missing or weak security attributes. It assigns higher severity to cookies whose names suggest they contain session or authentication credentials.
 
 Session cookies are the keys to a user's account. A single missing attribute can let them leak over plain HTTP, be read by injected JavaScript, or ride along on cross-site requests. cookie-shield takes headers copied from browser dev tools, `curl -I`, or a proxy log and tells you which ones need fixing.
 
@@ -35,9 +35,17 @@ pref:
 6 cookie(s) analyzed, 5 with warnings, 2 high-severity issue(s)
 ```
 
-The input has one header per line. The `Set-Cookie:` prefix is optional, and blank lines or `#` comments are ignored.
+The input file contains one cookie per line. The `Set-Cookie:` prefix is optional; blank lines and `#` comments are ignored. Malformed lines are skipped with a message on standard error.
 
-Exit codes: `0` no high-severity issues, `1` at least one, `2` the file couldn't be read.
+## Reading the results
+
+The severity levels are a triage aid based on cookie names and attributes. Review the findings in the context of the application; a warning does not by itself prove that a vulnerability is exploitable.
+
+## Exit status
+
+- `0` — no high-severity issues found
+- `1` — at least one high-severity issue found
+- `2` — the input file could not be read
 
 ## Tests
 
